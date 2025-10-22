@@ -6,6 +6,7 @@ import { api } from '@/convex/_generated/api';
 import { userContext } from '@/app/AuthProvider';
 import { useRouter } from 'next/navigation';
 import moment from 'moment';
+import { BookOpen, Languages, Brain, User, MessageSquare, Clock, ArrowRight, Sparkles } from 'lucide-react';
 
 const History = () => {
   const { userData } = useContext(userContext);
@@ -26,51 +27,54 @@ const History = () => {
     router.push(`/view-summary/${roomId}`);
   };
 
-  // Get icon and color for each coaching option
+  // Get icon, color, and gradient for each coaching option
   const getCoachingStyle = (option) => {
     switch(option) {
       case "Topic Base Lecture":
         return {
-          color: "bg-green-100 text-green-700",
-          icon: (
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
-          )
+          gradient: "from-green-500 to-emerald-500",
+          bgGradient: "from-green-500/10 to-emerald-500/10",
+          textColor: "text-green-400",
+          icon: BookOpen,
+          hoverGlow: "group-hover:shadow-green-500/50"
         };
       case "Learn Language":
         return {
-          color: "bg-orange-100 text-orange-700",
-          icon: (
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
-            </svg>
-          )
+          gradient: "from-orange-500 to-amber-500",
+          bgGradient: "from-orange-500/10 to-amber-500/10",
+          textColor: "text-orange-400",
+          icon: Languages,
+          hoverGlow: "group-hover:shadow-orange-500/50"
         };
       case "Meditation":
         return {
-          color: "bg-indigo-100 text-indigo-700",
-          icon: (
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          )
+          gradient: "from-indigo-500 to-purple-500",
+          bgGradient: "from-indigo-500/10 to-purple-500/10",
+          textColor: "text-indigo-400",
+          icon: Brain,
+          hoverGlow: "group-hover:shadow-indigo-500/50"
         };
       default:
         return {
-          color: "bg-gray-100 text-gray-700",
-          icon: null
+          gradient: "from-gray-500 to-gray-600",
+          bgGradient: "from-gray-500/10 to-gray-600/10",
+          textColor: "text-gray-400",
+          icon: Sparkles,
+          hoverGlow: "group-hover:shadow-gray-500/50"
         };
     }
   };
 
   if (!userData) {
     return (
-      <div className="py-6">
+      <div className="py-8 bg-black">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Your Previous Sessions</h2>
-          <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
-            <p className="text-gray-500 text-sm">Please sign in to view history</p>
+          <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+            <Clock className="w-6 h-6 text-purple-400" />
+            Your Previous Sessions
+          </h2>
+          <div className="bg-gray-900 rounded-2xl border border-gray-800 p-12 text-center">
+            <p className="text-gray-400">Please sign in to view history</p>
           </div>
         </div>
       </div>
@@ -79,12 +83,15 @@ const History = () => {
 
   if (discussionRooms === undefined) {
     return (
-      <div className="py-6">
+      <div className="py-8 bg-black">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Your Previous Sessions</h2>
-          <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
-            <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-2"></div>
-            <p className="text-gray-500 text-sm">Loading history...</p>
+          <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+            <Clock className="w-6 h-6 text-purple-400" />
+            Your Previous Sessions
+          </h2>
+          <div className="bg-gray-900 rounded-2xl border border-gray-800 p-12 text-center">
+            <div className="animate-spin w-10 h-10 border-4 border-purple-500 border-t-transparent rounded-full mx-auto mb-3"></div>
+            <p className="text-gray-400">Loading history...</p>
           </div>
         </div>
       </div>
@@ -93,29 +100,22 @@ const History = () => {
 
   if (!historyRooms || historyRooms.length === 0) {
     return (
-      <div className="py-6">
+      <div className="py-8 bg-black">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Your Previous Sessions</h2>
-          <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
+          <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+            <Clock className="w-6 h-6 text-purple-400" />
+            Your Previous Sessions
+          </h2>
+          <div className="bg-gray-900 rounded-2xl border border-gray-800 p-12 text-center">
             <div className="flex flex-col items-center justify-center py-8">
-              <svg 
-                className="w-16 h-16 text-gray-300 mb-4" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={1.5} 
-                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" 
-                />
-              </svg>
-              <p className="text-gray-500 text-sm">
-                You don't have any previous sessions
+              <div className="w-20 h-20 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-full flex items-center justify-center mb-4">
+                <Clock className="w-10 h-10 text-gray-500" />
+              </div>
+              <p className="text-gray-400 text-lg font-medium mb-2">
+                No Sessions Yet
               </p>
-              <p className="text-gray-400 text-xs mt-2">
-                Start a Topic Lecture, Language Learning, or Meditation session
+              <p className="text-gray-600 text-sm">
+                Start a coaching session to see your history here
               </p>
             </div>
           </div>
@@ -125,64 +125,77 @@ const History = () => {
   }
 
   return (
-    <div className="py-6">
+    <div className="py-8 bg-black">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          Your Previous Sessions ({historyRooms.length})
-        </h2>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+            <Clock className="w-6 h-6 text-purple-400" />
+            Your Previous Sessions
+          </h2>
+          <span className="px-4 py-1.5 bg-gray-900 border border-gray-800 rounded-full text-sm text-gray-400">
+            {historyRooms.length} {historyRooms.length === 1 ? 'Session' : 'Sessions'}
+          </span>
+        </div>
         
-        <div className="grid gap-4">
+        {/* Grid Layout - Square Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {historyRooms.map((room) => {
             const style = getCoachingStyle(room.coachingOption);
+            const Icon = style.icon;
             
             return (
               <div 
                 key={room._id} 
-                className="bg-white rounded-lg border border-gray-200 hover:border-blue-500 hover:shadow-md transition-all cursor-pointer p-6"
                 onClick={() => handleViewHistory(room._id)}
+                className={`group relative cursor-pointer bg-gradient-to-br ${style.bgGradient} backdrop-blur-sm border border-gray-800 rounded-2xl p-6 hover:border-gray-700 transition-all duration-300 hover:scale-105 ${style.hoverGlow} shadow-lg hover:shadow-2xl`}
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${style.color}`}>
-                        {style.icon}
-                        {room.coachingOption}
-                      </span>
-                      <span className="text-xs text-gray-500">
-                        {moment(room._creationTime).fromNow()}
-                      </span>
-                    </div>
-                    
-                    <h3 className="text-base font-semibold text-gray-900 mb-1">
-                      {room.topic}
-                    </h3>
-                    
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
-                      <span className="flex items-center gap-1">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                        {room.expertName}
-                      </span>
-                      {room.conversation && (
-                        <span className="flex items-center gap-1">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                          </svg>
-                          {room.conversation.length} messages
-                        </span>
-                      )}
-                    </div>
+                {/* Animated Glow Effect */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${style.gradient} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-300`}></div>
+                
+                {/* Header with Icon & Badge */}
+                <div className="flex items-start justify-between mb-4">
+                  <div className={`p-3 bg-gradient-to-br ${style.gradient} rounded-xl shadow-lg`}>
+                    <Icon className="w-6 h-6 text-white" strokeWidth={2.5} />
                   </div>
                   
-                  <svg 
-                    className="w-5 h-5 text-gray-400" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                  <div className="flex items-center gap-1 text-xs text-gray-500">
+                    <Clock className="w-3 h-3" />
+                    {moment(room._creationTime).fromNow()}
+                  </div>
+                </div>
+
+                {/* Topic Title */}
+                <h3 className="text-white font-bold text-lg mb-2 line-clamp-2 min-h-[56px]">
+                  {room.topic}
+                </h3>
+
+                {/* Coaching Type Badge */}
+                <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium mb-4 ${style.textColor} bg-gray-900/50 border border-gray-800`}>
+                  <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${style.gradient}`}></div>
+                  {room.coachingOption}
+                </div>
+
+                {/* Stats */}
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center gap-2 text-sm text-gray-400">
+                    <User className="w-4 h-4" />
+                    <span className="truncate">{room.expertName}</span>
+                  </div>
+                  
+                  {room.conversation && (
+                    <div className="flex items-center gap-2 text-sm text-gray-400">
+                      <MessageSquare className="w-4 h-4" />
+                      <span>{room.conversation.length} messages</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* View Button */}
+                <div className="flex items-center justify-between pt-4 border-t border-gray-800">
+                  <span className="text-sm font-medium text-gray-400 group-hover:text-white transition-colors">
+                    View Summary
+                  </span>
+                  <ArrowRight className="w-4 h-4 text-gray-600 group-hover:text-purple-400 transform group-hover:translate-x-1 transition-all" />
                 </div>
               </div>
             );

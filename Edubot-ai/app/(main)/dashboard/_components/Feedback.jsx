@@ -6,6 +6,7 @@ import { api } from '@/convex/_generated/api';
 import { userContext } from '@/app/AuthProvider';
 import { useRouter } from 'next/navigation';
 import moment from 'moment';
+import { MessageSquare, Mic, User, Clock, ArrowRight, FileText } from 'lucide-react';
 
 const Feedback = () => {
   const { userData } = useContext(userContext);
@@ -26,13 +27,37 @@ const Feedback = () => {
     router.push(`/view-summary/${roomId}`);
   };
 
+  // Get icon, color, and gradient for each coaching option
+  const getCoachingStyle = (option) => {
+    if (option === "Mockup Interview") {
+      return {
+        gradient: "from-purple-500 to-pink-500",
+        bgGradient: "from-purple-500/10 to-pink-500/10",
+        textColor: "text-purple-400",
+        icon: Mic,
+        hoverGlow: "group-hover:shadow-purple-500/50"
+      };
+    } else {
+      return {
+        gradient: "from-blue-500 to-cyan-500",
+        bgGradient: "from-blue-500/10 to-cyan-500/10",
+        textColor: "text-blue-400",
+        icon: MessageSquare,
+        hoverGlow: "group-hover:shadow-blue-500/50"
+      };
+    }
+  };
+
   if (!userData) {
     return (
-      <div className="py-6">
+      <div className="py-8 bg-black">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Feedback</h2>
-          <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
-            <p className="text-gray-500 text-sm">Please sign in to view feedback</p>
+          <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+            <FileText className="w-6 h-6 text-purple-400" />
+            Your Feedback
+          </h2>
+          <div className="bg-gray-900 rounded-2xl border border-gray-800 p-12 text-center">
+            <p className="text-gray-400">Please sign in to view feedback</p>
           </div>
         </div>
       </div>
@@ -41,12 +66,15 @@ const Feedback = () => {
 
   if (discussionRooms === undefined) {
     return (
-      <div className="py-6">
+      <div className="py-8 bg-black">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Feedback</h2>
-          <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
-            <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-2"></div>
-            <p className="text-gray-500 text-sm">Loading feedback...</p>
+          <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+            <FileText className="w-6 h-6 text-purple-400" />
+            Your Feedback
+          </h2>
+          <div className="bg-gray-900 rounded-2xl border border-gray-800 p-12 text-center">
+            <div className="animate-spin w-10 h-10 border-4 border-purple-500 border-t-transparent rounded-full mx-auto mb-3"></div>
+            <p className="text-gray-400">Loading feedback...</p>
           </div>
         </div>
       </div>
@@ -55,29 +83,22 @@ const Feedback = () => {
 
   if (!feedbackRooms || feedbackRooms.length === 0) {
     return (
-      <div className="py-6">
+      <div className="py-8 bg-black">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Feedback</h2>
-          <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
+          <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+            <FileText className="w-6 h-6 text-purple-400" />
+            Your Feedback
+          </h2>
+          <div className="bg-gray-900 rounded-2xl border border-gray-800 p-12 text-center">
             <div className="flex flex-col items-center justify-center py-8">
-              <svg 
-                className="w-16 h-16 text-gray-300 mb-4" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={1.5} 
-                  d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" 
-                />
-              </svg>
-              <p className="text-gray-500 text-sm">
-                You don't have any feedback yet
+              <div className="w-20 h-20 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-full flex items-center justify-center mb-4">
+                <FileText className="w-10 h-10 text-gray-500" />
+              </div>
+              <p className="text-gray-400 text-lg font-medium mb-2">
+                No Feedback Yet
               </p>
-              <p className="text-gray-400 text-xs mt-2">
-                Complete Mock Interviews or Open-Ans Prep sessions to get feedback
+              <p className="text-gray-600 text-sm">
+                Complete interviews or prep sessions to receive AI feedback
               </p>
             </div>
           </div>
@@ -87,67 +108,87 @@ const Feedback = () => {
   }
 
   return (
-    <div className="py-6">
+    <div className="py-8 bg-black pb-8">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          Feedback ({feedbackRooms.length})
-        </h2>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+            <FileText className="w-6 h-6 text-purple-400" />
+            Your Feedback
+          </h2>
+          <span className="px-4 py-1.5 bg-gray-900 border border-gray-800 rounded-full text-sm text-gray-400">
+            {feedbackRooms.length} {feedbackRooms.length === 1 ? 'Report' : 'Reports'}
+          </span>
+        </div>
         
-        <div className="grid gap-4">
-          {feedbackRooms.map((room) => (
-            <div 
-              key={room._id} 
-              className="bg-white rounded-lg border border-gray-200 hover:border-blue-500 hover:shadow-md transition-all cursor-pointer p-6"
-              onClick={() => handleViewFeedback(room._id)}
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      room.coachingOption === "Mockup Interview" 
-                        ? "bg-purple-100 text-purple-700" 
-                        : "bg-blue-100 text-blue-700"
-                    }`}>
-                      {room.coachingOption}
-                    </span>
-                    <span className="text-xs text-gray-500">
-                      {moment(room._creationTime).fromNow()}
-                    </span>
+        {/* Grid Layout - Square Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {feedbackRooms.map((room) => {
+            const style = getCoachingStyle(room.coachingOption);
+            const Icon = style.icon;
+            
+            return (
+              <div 
+                key={room._id} 
+                onClick={() => handleViewFeedback(room._id)}
+                className={`group relative cursor-pointer bg-gradient-to-br ${style.bgGradient} backdrop-blur-sm border border-gray-800 rounded-2xl p-6 hover:border-gray-700 transition-all duration-300 hover:scale-105 ${style.hoverGlow} shadow-lg hover:shadow-2xl`}
+              >
+                {/* Animated Glow Effect */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${style.gradient} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-300`}></div>
+                
+                {/* Header with Icon & Badge */}
+                <div className="flex items-start justify-between mb-4">
+                  <div className={`p-3 bg-gradient-to-br ${style.gradient} rounded-xl shadow-lg`}>
+                    <Icon className="w-6 h-6 text-white" strokeWidth={2.5} />
                   </div>
                   
-                  <h3 className="text-base font-semibold text-gray-900 mb-1">
-                    {room.topic}
-                  </h3>
-                  
-                  <div className="flex items-center gap-4 text-sm text-gray-600">
-                    <span className="flex items-center gap-1">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                      {room.expertName}
-                    </span>
-                    {room.conversation && (
-                      <span className="flex items-center gap-1">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                        </svg>
-                        {room.conversation.length} messages
-                      </span>
-                    )}
+                  <div className="flex items-center gap-1 text-xs text-gray-500">
+                    <Clock className="w-3 h-3" />
+                    {moment(room._creationTime).fromNow()}
                   </div>
                 </div>
-                
-                <svg 
-                  className="w-5 h-5 text-gray-400" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+
+                {/* Topic Title */}
+                <h3 className="text-white font-bold text-lg mb-2 line-clamp-2 min-h-[56px]">
+                  {room.topic}
+                </h3>
+
+                {/* Coaching Type Badge */}
+                <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium mb-4 ${style.textColor} bg-gray-900/50 border border-gray-800`}>
+                  <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${style.gradient}`}></div>
+                  {room.coachingOption}
+                </div>
+
+                {/* Stats */}
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center gap-2 text-sm text-gray-400">
+                    <User className="w-4 h-4" />
+                    <span className="truncate">{room.expertName}</span>
+                  </div>
+                  
+                  {room.conversation && (
+                    <div className="flex items-center gap-2 text-sm text-gray-400">
+                      <MessageSquare className="w-4 h-4" />
+                      <span>{room.conversation.length} messages</span>
+                    </div>
+                  )}
+
+                  {/* Feedback Badge */}
+                  <div className="flex items-center gap-2 text-sm text-green-400">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="font-medium">Feedback Available</span>
+                  </div>
+                </div>
+
+                {/* View Button */}
+                <div className="flex items-center justify-between pt-4 border-t border-gray-800">
+                  <span className="text-sm font-medium text-gray-400 group-hover:text-white transition-colors">
+                    View Feedback
+                  </span>
+                  <ArrowRight className="w-4 h-4 text-gray-600 group-hover:text-purple-400 transform group-hover:translate-x-1 transition-all" />
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
