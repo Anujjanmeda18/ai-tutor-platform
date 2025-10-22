@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState, useContext } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { getToken, AIModel, AIModelFeedbackAndNotes } from "@/services/GlobalServices";
+import { getToken, AIModel, AIModelFeedbackAndNotes } from "@/services/globalServices";
 import { userContext } from "@/app/AuthProvider";
 import { toast } from "sonner";
 import { Mic, MicOff, Phone, PhoneOff, MessageSquare, Loader2, FileText, Check, Sparkles } from "lucide-react";
