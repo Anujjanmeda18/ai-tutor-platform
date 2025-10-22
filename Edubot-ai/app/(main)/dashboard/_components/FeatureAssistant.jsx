@@ -73,10 +73,11 @@ const FeatureAssistant = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10 gap-4">
           {/* Welcome Text */}
           <div>
-            <p className="text-sm text-gray-500 mb-2 flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            {/* FIXED: Changed <p> to <div> to allow <span> inside */}
+            <div className="text-sm text-gray-500 mb-2 flex items-center gap-2">
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
               My Workspace
-            </p>
+            </div>
             <h1 className="text-3xl md:text-4xl font-bold text-white">
               Welcome Back, <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
                 {user?.displayName || 'User'}

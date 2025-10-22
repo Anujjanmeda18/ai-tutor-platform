@@ -1,8 +1,9 @@
 // ✅ must be client because we use StackProvider
-import { Outfit } from "next/font/google"
+import { Outfit } from "next/font/google";
 import { StackProvider, StackTheme } from "@stackframe/stack";
 import { stackClientApp } from "../stack/client";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 const outfit = Outfit({ subsets: ["latin"] });
 
@@ -13,13 +14,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="dark"> 
+    <html lang="en" className="dark">
       <body className={outfit.className}>
         <StackProvider app={stackClientApp}>
-          <StackTheme>
-            {children}
-          </StackTheme>
+          <StackTheme>{children}</StackTheme>
         </StackProvider>
+        <Toaster position="top-right" richColors closeButton theme="dark" />
       </body>
     </html>
   );

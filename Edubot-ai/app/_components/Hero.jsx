@@ -113,23 +113,19 @@ export const Hero = () => {
           ))}
         </motion.div>
 
-        {/* CTA Buttons */}
+        {/* CTA Button - Single Centered */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 1.3 }}
-          className="relative z-10 mt-6 flex flex-wrap items-center justify-center gap-4"
+          className="relative z-10 mt-6 flex items-center justify-center"
         >
           <Link href="/dashboard">
-            <button className="group relative w-60 overflow-hidden rounded-lg bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/50">
+            <button className="group relative overflow-hidden rounded-lg bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 px-8 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/50">
               <span className="relative z-10">Start Learning Free</span>
               <div className="absolute inset-0 -z-10 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
             </button>
           </Link>
-
-          <button className="w-60 transform rounded-lg border-2 border-gray-700 bg-gray-900/50 px-6 py-3 font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-purple-500 hover:bg-gray-800/70 hover:shadow-lg">
-            See How It Works
-          </button>
         </motion.div>
 
         {/* Stats Section */}

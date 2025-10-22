@@ -14,23 +14,21 @@ export const CreateUser = mutation({
       .first();
 
     if (existingUser) {
-      console.log("User already exists:", existingUser._id);
       return existingUser._id; // Return existing user ID
     }
 
-    // Create new user
+    // Create new user with 50,000 credits
     const userId = await ctx.db.insert('users', {
       name: args.name,
       email: args.email,
-      credits: 10, // Default credits
+      credits: 50000, // ✅ 50,000 FREE CREDITS
     });
 
-   // console.log("New user created:", userId);
     return userId; // Return new user ID
   },
 });
 
-// ✅ New: Update user credits
+// Update user credits
 export const UpdateUserToken = mutation({
   args: {
     id: v.id('users'),
@@ -43,12 +41,27 @@ export const UpdateUserToken = mutation({
   }
 });
 
+// Get user by ID
 export const GetUserById = query({
   args: {
     id: v.id('users')
   },
   handler: async (ctx, args) => {
     const user = await ctx.db.get(args.id);
+    return user;
+  }
+});
+
+// Get user by email (useful for checking existing users)
+export const GetUserByEmail = query({
+  args: {
+    email: v.string()
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query('users')
+      .filter(q => q.eq(q.field('email'), args.email))
+      .first();
     return user;
   }
 });

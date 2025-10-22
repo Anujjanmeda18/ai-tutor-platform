@@ -5,12 +5,12 @@ import { userContext } from '@/app/AuthProvider';
 import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { useRouter } from 'next/navigation';
+import { Sparkles, Crown, Mail, TrendingDown, Loader2, X } from 'lucide-react';
 
 const ProfileDialog = ({ isOpen, onClose, children }) => {
   const { userData } = useContext(userContext);
   const router = useRouter();
   
-  // ✅ Fetch fresh user data from DB
   const freshUserData = useQuery(
     api.users.GetUserById,
     userData?._id ? { id: userData._id } : "skip"
@@ -20,92 +20,147 @@ const ProfileDialog = ({ isOpen, onClose, children }) => {
 
   const handleUpgrade = () => {
     router.push('/pricing');
+    onClose();
   };
 
-  // Use fresh data from DB if available, otherwise use context
   const currentUserData = freshUserData || userData;
-  const totalCredits = 50000; // ✅ Changed to 50,000
+  const totalCredits = 50000;
   const remainingCredits = currentUserData?.credits || 0;
   const usedCredits = totalCredits - remainingCredits;
   const progressPercentage = (remainingCredits / totalCredits) * 100;
 
+  // Loading state
+  if (!currentUserData) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
+        <div className="relative bg-gray-900 border border-gray-800 rounded-2xl p-8 z-10">
+          <Loader2 className="w-8 h-8 text-purple-400 animate-spin mx-auto" />
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div
-        className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
-        onClick={onClose}
-      />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onClick={onClose} />
       
-      <div className="relative bg-white rounded-lg shadow-2xl max-w-md w-full mx-4 z-10">
+      <div className="relative bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl max-w-sm w-full z-10 overflow-hidden max-h-[90vh] overflow-y-auto">
+        {/* Header Gradient */}
+        <div className="h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-10"
+          className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full bg-gray-800 hover:bg-gray-700 transition-colors z-10"
         >
-          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <X className="w-4 h-4 text-gray-400" />
         </button>
 
-        {/* Header - Simple with Avatar */}
-        <div className="p-6 pb-4 text-center">
-          <div className="w-16 h-16 rounded-full bg-green-700 flex items-center justify-center mx-auto mb-3 text-white text-2xl font-bold">
-            {currentUserData?.name?.charAt(0).toUpperCase() || 'S'}
+        {/* Header with Avatar */}
+        <div className="p-4 text-center">
+          <div className="relative inline-block mb-3">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+              {currentUserData?.name?.charAt(0).toUpperCase() || 'U'}
+            </div>
+            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-4 border-gray-900"></div>
           </div>
-          <h2 className="text-xl font-bold text-gray-900">
+          
+          <h2 className="text-lg font-bold text-white mb-1">
             {currentUserData?.name || 'User'}
           </h2>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-xs text-gray-400 flex items-center justify-center gap-1">
+            <Mail className="w-3 h-3" />
             {currentUserData?.email || 'user@example.com'}
           </p>
         </div>
 
         {/* Content */}
-        <div className="px-6 pb-6">
-          {/* Token Usage Section */}
-          <div className="mb-5">
-            <h3 className="text-sm font-semibold text-gray-900 mb-2">Token Usage</h3>
-            <div className="text-2xl font-bold text-gray-900 mb-2">
-              {remainingCredits.toLocaleString()}/{totalCredits.toLocaleString()}
+        <div className="px-4 pb-4">
+          {/* Credits Usage Card */}
+          <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 mb-3">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-yellow-500" />
+                <h3 className="text-xs font-semibold text-white">Credits Balance</h3>
+              </div>
+              <span className={`text-xs px-2 py-0.5 rounded-full ${
+                remainingCredits > 10000 
+                  ? 'bg-green-500/20 text-green-400' 
+                  : remainingCredits > 5000 
+                    ? 'bg-yellow-500/20 text-yellow-400'
+                    : 'bg-red-500/20 text-red-400'
+              }`}>
+                {progressPercentage.toFixed(0)}%
+              </span>
             </div>
             
+            <div className="text-2xl font-bold text-white mb-1">
+              {remainingCredits.toLocaleString()}
+            </div>
+            <p className="text-xs text-gray-500 mb-2">
+              of {totalCredits.toLocaleString()} total
+            </p>
+            
             {/* Progress Bar */}
-            <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div className="relative h-1.5 bg-gray-700 rounded-full overflow-hidden">
               <div 
-                className="absolute inset-y-0 left-0 bg-blue-500 rounded-full transition-all duration-500"
+                className={`absolute inset-y-0 left-0 rounded-full transition-all duration-500 ${
+                  remainingCredits > 10000 
+                    ? 'bg-gradient-to-r from-green-500 to-emerald-500'
+                    : remainingCredits > 5000
+                      ? 'bg-gradient-to-r from-yellow-500 to-orange-500'
+                      : 'bg-gradient-to-r from-red-500 to-pink-500'
+                }`}
                 style={{ width: `${progressPercentage}%` }}
               />
             </div>
-          </div>
 
-          {/* Current Plan Section */}
-          <div className="flex items-center justify-between py-3 border-t border-b border-gray-200 mb-4">
-            <span className="text-sm font-semibold text-gray-900">Current Plan</span>
-            <span className="text-sm text-gray-600">
-              {currentUserData?.subscriptionId ? 'Pro Plan' : 'Free Plan'}
-            </span>
-          </div>
-
-          {/* Upgrade Card */}
-          <div className="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
-            <div>
-              <h4 className="text-sm font-bold text-gray-900 mb-1">Pro Plan</h4>
-              <p className="text-xs text-gray-600">50,000 Tokens</p>
-            </div>
-            <div className="text-right">
-              <span className="text-lg font-bold text-gray-900">$10</span>
-              <span className="text-sm text-gray-600">/Month</span>
+            {/* Usage Stats */}
+            <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-700">
+              <div className="flex items-center gap-1 text-xs text-gray-400">
+                <TrendingDown className="w-3 h-3" />
+                <span>Used: {usedCredits.toLocaleString()}</span>
+              </div>
+              <div className="text-xs text-gray-500">
+                ~{Math.floor(remainingCredits / 500)} sessions
+              </div>
             </div>
           </div>
 
-          {/* Upgrade Button */}
+          {/* Current Plan */}
+          <div className="flex items-center justify-between py-2 px-3 bg-gray-800/50 rounded-lg mb-3">
+            <span className="text-xs font-medium text-gray-300">Current Plan</span>
+            <div className="flex items-center gap-1">
+              {currentUserData?.subscriptionId ? (
+                <>
+                  <Crown className="w-3 h-3 text-yellow-500" />
+                  <span className="text-xs font-semibold text-yellow-500">Pro</span>
+                </>
+              ) : (
+                <span className="text-xs text-gray-400">Free</span>
+              )}
+            </div>
+          </div>
+
+          {/* Upgrade Button - Compact */}
           {!currentUserData?.subscriptionId && (
             <button
               onClick={handleUpgrade}
-              className="w-full mt-4 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              className="w-full py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 hover:scale-105 shadow-lg text-sm flex items-center justify-center gap-2"
             >
-              Upgrade to Pro
+              <Crown className="w-4 h-4" />
+              Upgrade to Pro - $10/mo
             </button>
+          )}
+
+          {/* Low Credits Warning */}
+          {remainingCredits < 5000 && !currentUserData?.subscriptionId && (
+            <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-2 text-center mt-3">
+              <p className="text-xs text-red-400 font-medium">
+                ⚠️ Low on credits!
+              </p>
+            </div>
           )}
         </div>
         
