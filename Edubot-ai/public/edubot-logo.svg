@@ -1,0 +1,20 @@
+<svg width="150" height="40" viewBox="0 0 150 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Circle background -->
+  <circle cx="20" cy="20" r="18" fill="#3B82F6"/>
+  
+  <!-- Robot head icon -->
+  <rect x="12" y="14" width="16" height="12" rx="2" fill="white"/>
+  <circle cx="15" cy="19" r="1.5" fill="#3B82F6"/>
+  <circle cx="25" cy="19" r="1.5" fill="#3B82F6"/>
+  <rect x="17" y="23" width="6" height="1" rx="0.5" fill="#3B82F6"/>
+  
+  <!-- Antenna -->
+  <line x1="20" y1="14" x2="20" y2="10" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="20" cy="9" r="1.5" fill="white"/>
+  
+  <!-- Text: Edubot -->
+  <text x="45" y="18" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#1F2937">Edubot</text>
+  
+  <!-- Text: .AI -->
+  <text x="108" y="18" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#3B82F6">.AI</text>
+</svg>
