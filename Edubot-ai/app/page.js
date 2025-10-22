@@ -1,7 +1,13 @@
-import Image from "next/image";
+import { Hero } from "./_components/Hero";
+import LandingHeader from "./_components/LandingHeader";
+import Footer from "./_components/Footer";
 
 export default function Home() {
   return (
-    <div>HI Myself Anuj Kumar</div>
+    <div>
+      <LandingHeader />
+      <Hero />
+      <Footer />
+    </div>
   );
 }
