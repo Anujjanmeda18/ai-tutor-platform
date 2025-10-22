@@ -88,18 +88,7 @@ const FeatureAssistant = () => {
           
           {/* Credits & Profile */}
           <div className="flex items-center gap-3">
-            {/* Credits Badge */}
-            <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-yellow-600 to-orange-600 rounded-full opacity-50 group-hover:opacity-75 blur transition-opacity"></div>
-              <div className="relative px-5 py-2.5 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center gap-2 shadow-lg">
-                <Sparkles className="w-5 h-5 text-white" />
-                <span className="font-bold text-white text-lg">
-                  {userData?.credits?.toLocaleString() || 0}
-                </span>
-                <span className="text-xs text-yellow-100 font-medium">credits</span>
-              </div>
-            </div>
-            
+
             {/* Profile Button */}
             <button 
               onClick={() => setIsProfileOpen(true)}
